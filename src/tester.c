@@ -1,7 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "tokenizer.h"
-/*#include "history.h"
+#include "history.h"
 
 /*
     The following is a simple testing script with a single example of input
@@ -13,22 +13,53 @@
 #define TEST_HISTORY 1
 
 int main() {
-  char input[100];
+  char input[256];
+  while(1){
+    List *history = init_history();
+    fputs("Select what you want to do (Enter command = c, Show history = h, or q to quit\n>",stdout);
+    fflush(stdout);
+    int c;
+    while((c = getchar()) == '\n');
+    if (c == EOF){
+      goto finish;
+    }
 
-  // Display an indicator and take user input
-  printf("$ Write a word: ");
+    switch (c){
+    case 'c':
+      puts("You selected to Enter a command");
+      char input[256];
+      printf("Enter a string to tokenize: ");
+      fgets(input, sizeof(input), stdin);
+      printf("\nInput: %s\n", input);
+      char **tokens = tokenize(input);
+      printf("Tokens:\n");
+      print_tokens(tokens);
+      add_history(history, input);
+      //free_tokens(tokens);
+      break;
+    case 'h':
+      printf("\nHistory:\n");
+      print_history(history);
 
-  // Read input from the user
-  while (fgets(input, sizeof(input), stdin) != NULL) {
-    // Remove newline character from the input
-    input[strcspn(input, "\n")] = 0;
-
-    // Echo the input back to the user
-    printf("%s\n", input);
-
-    // Display the indicator again
-    printf("$ ");
+      printf("Enter the ID of the command");
+      int ID;
+      scanf("%d", &ID); 
+      char *command = get_history(history,ID);
+      if (command != NULL) {
+	printf("\nRetrieved Command (ID: %d): %s\n", ID);
+      } else {
+	printf("\nNo command found with ID: %d\n", ID);
+      }
+      break;
+    case 'q':
+      printf("bye byee");
+      goto finish;
+    case '\n':
+      break;
+    deafult:
+      printf("Option not available '%c', try again\n", c);
   }
-
-  return 0;
+  }
+  finish:
+    return 0;
 }

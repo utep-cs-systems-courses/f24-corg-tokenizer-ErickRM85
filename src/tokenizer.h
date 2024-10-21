@@ -9,20 +9,20 @@
    Zero terminators are not printable (therefore false) */
 int space_char(char c){
   if(c=='\t' || c ==' '){
-    return true;
+    return 1;
   }else if(c=='\0'){
-    return false;
+    return 0;
   }
-  return false;
+  return 0;
 }
 /* Return true (non-zero) if c is a non-whitespace 
    character (not tab or space).  
    Zero terminators are not printable (therefore false) */ 
 int non_space_char(char c){
-  if (space_char(c)==false){
-    return true;
+  if (space_char(c)==0){
+    return 1;
   }
-  return false;
+  return 0;
 }
 /* Returns a pointer to the first character of the next 
    space-separated token in zero-terminated str.  Return a zero pointer if 
@@ -32,14 +32,14 @@ char *token_start(char *str){
     str++;
   }
   if(*str == '\0'){
-    return NULL
+    return NULL;
   }
   return str;
 }
 
 /* Returns a pointer terminator char following *token */
 char *token_terminator(char *token){
-  while (*token != '\0') {
+  while (*token != '\0' && *token!= ' ' && *token != '\t') {
     token++;
   }
   return token;
