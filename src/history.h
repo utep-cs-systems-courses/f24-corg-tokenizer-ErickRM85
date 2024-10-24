@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #ifndef _HISTORY_
 #define _HISTORY_
 
@@ -64,8 +66,8 @@ void free_history(List *list){
   Item *current = list->root;
   while (current != NULL) {
     Item *next = current->next;
-    free(current->str);  // Free the copied string
-    free(current);       // Free the item node
+    free(current->str);  
+    free(current);       
     current = next;
   }
   free(list);
