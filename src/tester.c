@@ -13,7 +13,7 @@
 #define TEST_HISTORY 1
 
 int main() {
-  char input[256];
+  
   while(1){
     List *history = init_history();
     fputs("Select what you want to do (Enter command = c, Show history = h, or q to quit\n>",stdout);
@@ -23,7 +23,7 @@ int main() {
     if (c == EOF){
       goto finish;
     }
-
+    
     switch (c){
     case 'c':
       puts("You selected to Enter a command");
@@ -31,11 +31,12 @@ int main() {
       printf("Enter a string to tokenize: ");
       fgets(input, sizeof(input), stdin);
       printf("\nInput: %s\n", input);
+      
       char **tokens = tokenize(input);
       printf("Tokens:\n");
       print_tokens(tokens);
       add_history(history, input);
-      //free_tokens(tokens);
+      
       break;
     case 'h':
       printf("\nHistory:\n");
@@ -58,8 +59,10 @@ int main() {
       break;
     deafult:
       printf("Option not available '%c', try again\n", c);
-  }
+    }
+    while (getchar() != '\n');
   }
   finish:
+    
     return 0;
 }
